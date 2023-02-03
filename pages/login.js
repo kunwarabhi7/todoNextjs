@@ -1,9 +1,17 @@
 import Link from 'next/link';
 import React,{useState} from 'react';
 
+
+
 export default function Login() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const googleSignIn = () => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    
+    }
+
     console.log(email)
     console.log(password)
     return (
@@ -29,8 +37,8 @@ export default function Login() {
                     </div>
                     <div className="mb-2">
                         <label
-                            for="password"
-                            v
+                            htmlFor="password"
+                            
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Password
