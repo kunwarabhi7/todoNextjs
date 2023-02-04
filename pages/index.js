@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {db} from '../utils/firebase'
-import {collection,addDoc} from 'firebase/firestore'
+import {collection,addDoc,doc,getDoc} from 'firebase/firestore'
 
 export default function Home() {
   const [todo, setTodo] = useState("")
@@ -14,6 +14,7 @@ await addDoc(todoRef,{
   isCompleted: false
 })
   }
+
 
   return (
     <>
