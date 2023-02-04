@@ -2,10 +2,12 @@ import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import {db} from '../utils/firebase'
 import {collection,addDoc,doc,getDoc, getDocs} from 'firebase/firestore'
+import TodosList from '@/components/TodosList'
 
 export default function Home() {
 
   const [todo, setTodo] = useState("")
+  const [todoList, setTodoList] = useState([])
   const todoRef = collection(db,'todo')
 
   const createATodo =async () => {
@@ -23,7 +25,7 @@ const getTodo =async () =>{
 const filteredTodo = data.docs.map((doc)=>({
   ...doc.data(),id: doc.id
 }))
-console.log(filteredTodo)
+setTodoList(filteredTodo)
 } catch (error) {
     console.log(error);
 }
@@ -59,27 +61,11 @@ getTodo()
                 </button>
             </div>        
         </div>
-        <div className="mt-8">
-            <ul>
-                    <li className="p-2 rounded-lg" >
-                        <div className="flex align-middle flex-row justify-between">
-                            <div className="p-2">
-                                <input type="checkbox" className="h-6 w-6 " value="true" />
-                            </div>
-                            <div className="p-2">
-                                <p className="text-lg line-through text-gray-400">Cook maggie</p>
-                            </div>
-                            <button 
-                                className="flex text-red-500 border-2 border-red-500 p-2 rounded-lg">
-                                <svg className="h-6 w-6 text-red-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <circle cx="12" cy="12" r="10" />  <line x1="15" y1="9" x2="9" y2="15" />  <line x1="9" y1="9" x2="15" y2="15" /></svg>
-                                <span>Remove</span>
-                            </button>
-                        </div>
-                        <hr className="mt-2"/>
-                    </li>
-                   
-            </ul>
-        </div>
+        {todoList.map((list)=>(
+          <div key={list.id}>
+<TodosList todo={list.todo} isCompleted={list.isCompleted}/>
+          </div>
+        ))}
        
     </div>    
 </div>
