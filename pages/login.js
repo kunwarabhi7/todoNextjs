@@ -1,16 +1,24 @@
 import Link from 'next/link';
 import React,{useState} from 'react';
-
-
-
-export default function Login() {
+import { auth,googleProvider} from '../utils/firebase'
+import {signInWithPopup} from 'firebase/auth'
+const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const googleSignIn = () => {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    
-    }
+    const signInWithGoogle =async () => {
+        try{
+            signInWithPopup(auth, googleProvider).then((res)=>{
+                console.log(res)
+        })    
+        
+        } catch(err){
+            console.log(err);
+        
+        } 
+        }
+        
+
 
     console.log(email)
     console.log(password)
@@ -23,7 +31,7 @@ export default function Login() {
                 <form className="mt-6">
                     <div className="mb-2">
                         <label
-                            for="email"
+                            htmlFor="email"
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Email
@@ -66,7 +74,7 @@ export default function Login() {
                     <div className="absolute px-5 bg-white">Or</div>
                 </div>
                 <div className="flex bg-cyan-500  mt-4 gap-x-2">
-                    <button
+                    <button onClick={signInWithGoogle}
                         type="button"
                         className="flex items-center justify-center w-full p-2 border border-gray-600 rounded-md focus:ring-2 focus:ring-offset-1 focus:ring-violet-600"
                     >
@@ -95,3 +103,6 @@ export default function Login() {
         </div>
     );
 }
+
+
+export default Login ;
