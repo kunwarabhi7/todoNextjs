@@ -1,15 +1,19 @@
 import Link from 'next/link';
 import React,{useState} from 'react';
 import { auth,googleProvider} from '../utils/firebase'
-import {signInWithPopup} from 'firebase/auth'
+import {signInWithPopup,signInWithEmailAndPassword} from 'firebase/auth'
+import { useRouter } from 'next/router';
+
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+   const router = useRouter()
 
     const signInWithGoogle =async () => {
         try{
             signInWithPopup(auth, googleProvider).then((res)=>{
                 console.log(res)
+                router.push('/')
         })    
         
         } catch(err){
@@ -18,10 +22,19 @@ const Login = () => {
         } 
         }
         
+const signInUser =async (e) => {
+    e.preventDefault();
+    try{
 
+        signInWithEmailAndPassword(auth,email,password).then((res)=>{
+            console.log(res)
+            router.push('/')
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
 
-    console.log(email)
-    console.log(password)
     return (
         <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-xl lg:max-w-xl">
@@ -65,7 +78,7 @@ const Login = () => {
                         Forget Password?
                     </a>
                     <div className="mt-6">
-                        <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
+                        <button onClick={signInUser} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600">
                             Login
                         </button>
                     </div>
