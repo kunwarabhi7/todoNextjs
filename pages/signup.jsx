@@ -2,14 +2,25 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import {auth} from '../utils/firebase'
 import {createUserWithEmailAndPassword} from 'firebase/auth'
+import { useRouter } from 'next/router';
 
 export default function Login() {
 const [email , setEmail] = useState('')
 const [password, setPassword] = useState('')
+const router = useRouter()
 
 
-    const createUser = () => {
-        createUserWithEmailAndPassword(auth,username,password)
+    const createUser = async(e) => {
+        e.preventDefault()
+        try{
+
+            createUserWithEmailAndPassword(auth,email,password).then((res)=>{
+                console.log(res)
+                router.push('/login')
+              }
+    )}catch(err){
+        console.log(err)
+    }
     }
 
     return (
@@ -21,7 +32,7 @@ const [password, setPassword] = useState('')
                 <form className="mt-6">
                     <div className="mb-2">
                         <label
-                            for="email"
+                            htmlFor="email"
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Email
@@ -35,7 +46,7 @@ onChange={e=>setEmail(e.target.value)}
                     </div>
                     <div className="mb-2">
                         <label
-                            for="password"
+                            htmlFor="password"
                             className="block text-sm font-semibold text-gray-800"
                         >
                             Password
@@ -49,7 +60,7 @@ onChange={e=>setEmail(e.target.value)}
                     </div>
                     
                     <div className="mt-6">
-                        <button className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-red-700 rounded-md hover:bg-red-600 focus:outline-none focus:bg-purple-600">
+                        <button onClick={createUser} className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-red-700 rounded-md hover:bg-red-600 focus:outline-none focus:bg-purple-600">
                             Sign UP
                         </button>
                     </div>
