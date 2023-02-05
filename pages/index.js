@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import {db} from '../utils/firebase'
-import {collection,addDoc,doc,getDoc, getDocs} from 'firebase/firestore'
+import {collection,addDoc,doc , getDocs} from 'firebase/firestore'
 import TodosList from '@/components/TodosList'
 
 export default function Home() {
@@ -63,7 +63,7 @@ getTodo()
         </div>
         {todoList.map((list)=>(
           <div key={list.id}>
-<TodosList todo={list.todo} isCompleted={list.isCompleted}/>
+<TodosList todo={list.todo} id={list.id} isCompleted={list.isCompleted}/>
           </div>
         ))}
        
