@@ -1,9 +1,10 @@
 import { db } from '@/utils/firebase'
-import { collection, deleteDoc, doc ,updateDoc } from 'firebase/firestore'
-import React from 'react'
+import {  deleteDoc, doc ,updateDoc } from 'firebase/firestore'
+import React, { useState } from 'react'
 
 const TodosList = ({todo,isCompleted,id}) => {
-    const todoRef = collection(db,'todo')
+    const [complete, setComplete] = useState(false)
+
 
     const deleteTodoDoc = async() =>{
         const todoDoc = doc(db,"todo",id)
@@ -11,17 +12,20 @@ const TodosList = ({todo,isCompleted,id}) => {
     }
 
     const updateTodo = async(id) =>{
-await updateDoc(todoRef,id,{
-    isCompleted:!isCompleted
+const todoDoc2 = doc(db,"todo",id);
+await updateDoc(todoDoc2,{
+isCompleted:!complete
 })
     }
-  return (
+
+
+    return (
     <div className="mt-8">
             <ul>
                     <li className="p-2 rounded-lg" >
                         <div className="flex align-middle flex-row justify-between">
-                            <div className="p-2">
-                                <input type="checkbox" onClick={()=>updateDoc(id)} className="h-6 w-6 " value="true" />
+                            <div  className="p-2">
+                                <input onClick={()=>updateTodo(id)} type="checkbox" value={complete} onChange={e=>setComplete(e.target.checked)} className="h-6 w-6 "  />
                             </div>
                             <div className="p-2">
                                 <p className="text-lg  text-black">{todo}</p>
