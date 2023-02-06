@@ -28,7 +28,7 @@ isCompleted:!complete
                                 <input onClick={()=>updateTodo(id)} type="checkbox" value={complete} onChange={e=>setComplete(e.target.checked)} className="h-6 w-6 "  />
                             </div>
                             <div className="p-2">
-                                <p className={"text-lg  text-black "+complete?"":"line-through"}>{todo}</p>
+                                <p className={"text-lg  text-black "+complete?"line-through":""}>{todo}</p>
                             </div>
                             <button onClick={()=>deleteTodoDoc(id)}
                                 className="flex text-red-500 border-2 border-red-500 p-2 rounded-lg">
