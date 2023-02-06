@@ -15,24 +15,26 @@ export default function Home() {
         todo: todo,
         isCompleted: false
       })
+      setTodo('')
         }
   
+        const getTodo =async () =>{
+          try {
+            const data = await getDocs(todoRef);
+        const filteredTodo = data.docs.map((doc)=>({
+          ...doc.data(),id: doc.id
+        }))
+        setTodoList(filteredTodo)
+        } catch (error) {
+            console.log(error);
+        }
+        }
 
 useEffect(()=>{
-const getTodo =async () =>{
-  try {
-    const data = await getDocs(todoRef);
-const filteredTodo = data.docs.map((doc)=>({
-  ...doc.data(),id: doc.id
-}))
-setTodoList(filteredTodo)
-} catch (error) {
-    console.log(error);
-}
-}
+
 
 getTodo()
-},[])
+},[getTodo()])
 
   return (
     <>
