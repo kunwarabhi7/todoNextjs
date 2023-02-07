@@ -3,7 +3,6 @@ import {  deleteDoc, doc ,updateDoc } from 'firebase/firestore'
 import React, { useState } from 'react'
 
 const TodosList = ({todo,isCompleted,id}) => {
-    const [complete, setComplete] = useState(false)
 
 
     const deleteTodoDoc = async() =>{
@@ -11,12 +10,7 @@ const TodosList = ({todo,isCompleted,id}) => {
         await deleteDoc(todoDoc)
     }
 
-    const updateTodo = async(id) =>{
-const todoDoc2 = doc(db,"todo",id);
-await updateDoc(todoDoc2,{
-isCompleted:!complete
-})
-    }
+    
 
 
     return (
@@ -24,11 +18,9 @@ isCompleted:!complete
             <ul>
                     <li className="p-2 rounded-lg" >
                         <div className="flex align-middle flex-row justify-between">
-                            <div  className="p-2">
-                                <input onClick={()=>updateTodo(id)} type="checkbox" value={complete} onChange={e=>setComplete(e.target.checked)} className="h-6 w-6 "  />
-                            </div>
+                           
                             <div className="p-2">
-                                <p className={"text-lg  text-black "+complete?"line-through":""}>{todo}</p>
+                                <p className="text-lg  text-black ">{todo}</p>
                             </div>
                             <button onClick={()=>deleteTodoDoc(id)}
                                 className="flex text-red-500 border-2 border-red-500 p-2 rounded-lg">
