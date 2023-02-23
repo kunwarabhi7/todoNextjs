@@ -1,14 +1,32 @@
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import {db} from '../utils/firebase'
-import {collection,addDoc,doc , getDocs} from 'firebase/firestore'
+import {collection,addDoc ,  query, onSnapshot} from 'firebase/firestore'
+import {onAuthStateChanged} from 'firebase/auth'
+import {auth} from '../utils/firebase'
 import TodosList from '@/components/TodosList'
+import Login from '@/components/LoginWith'
+
 
 export default function Home() {
 
   const [todo, setTodo] = useState("")
   const [todoList, setTodoList] = useState([])
   const todoRef = collection(db,'todo')
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      const uid = user.uid;
+      console.log(user)
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+  
 
   const createATodo =async () => {
       await addDoc(todoRef,{
@@ -18,23 +36,20 @@ export default function Home() {
       setTodo('')
         }
   
-        const getTodo =async () =>{
-          try {
-            const data = await getDocs(todoRef);
-        const filteredTodo = data.docs.map((doc)=>({
-          ...doc.data(),id: doc.id
-        }))
-        setTodoList(filteredTodo)
-        } catch (error) {
-            console.log(error);
-        }
-        }
+        
 
 useEffect(()=>{
-
-
-getTodo()
-},[getTodo()])
+const q  = query(collection(db,'todo'))
+const unsubscribe = onSnapshot(q,(querySnapshot)=>{
+  let todoArr = []
+  querySnapshot.forEach((doc)=>{
+    todoArr.push({...doc.data(),id:doc.id})
+  })
+  setTodoList(todoArr)
+}
+)
+return () => unsubscribe()
+},[])
 
   return (
     <>
@@ -69,7 +84,8 @@ getTodo()
           </div>
         ))}
        
-    </div>    
+    </div>
+    <Login />  
 </div>
     </>
   )
