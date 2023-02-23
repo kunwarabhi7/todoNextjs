@@ -1,8 +1,8 @@
-import { db } from '@/utils/firebase'
+import { auth, db } from '@/utils/firebase'
 import {  deleteDoc, doc ,updateDoc } from 'firebase/firestore'
-import React, { useState } from 'react'
+import React from 'react'
 
-const TodosList = ({todo,isCompleted,id}) => {
+const TodosList = ({todo,isCompleted,id,userId}) => {
 
 
     const deleteTodoDoc = async() =>{
@@ -10,11 +10,8 @@ const TodosList = ({todo,isCompleted,id}) => {
         await deleteDoc(todoDoc)
     }
 
-    
-
-
-    return (
-    <div className="mt-8">
+     if (userId === auth.currentUser.uid){
+           return (      <div className="mt-8">
             <ul>
                     <li className="p-2 rounded-lg" >
                         <div className="flex align-middle flex-row justify-between">
@@ -33,7 +30,10 @@ const TodosList = ({todo,isCompleted,id}) => {
                    
             </ul>
         </div>
-  )
-}
+           ) 
+        }}
+  
+  
+
 
 export default TodosList

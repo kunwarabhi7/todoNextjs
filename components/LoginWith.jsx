@@ -3,11 +3,13 @@ import { signInWithPopup } from 'firebase/auth'
 import React from 'react'
 
 const Login = () => {
+
+
   const signInWithGoogle =async () => {
     try{
         signInWithPopup(auth, googleProvider).then((res)=>{
             console.log(res)
-            router.push('/')
+           
     })    
     
     } catch(err){
@@ -16,6 +18,8 @@ const Login = () => {
     } 
     }
   return (
+    <div className='flex items-center justify-center h-screen'>
+
     <button onClick={signInWithGoogle} className="bg-white text-gray-800 flex font-bold py-2 px-4 border border-gray-400 rounded shadow hover:bg-gray-100 hover:shadow-md focus:outline-none focus:shadow-outline-gray active:bg-gray-200 transition duration-150 ease-in-out">
     <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
       <path fill="#4285F4" d="M22.64 11.76c0-.78-.07-1.44-.2-2.12H12v4.02h5.58c-.23 1.3-.88 2.38-1.84 3.14v2.6h2.98c1.74-1.6 2.75-3.95 2.75-6.64z" />
@@ -26,6 +30,7 @@ const Login = () => {
     </svg>
     <span>Login with Google</span>
   </button>
+    </div>
   )
 }
 
